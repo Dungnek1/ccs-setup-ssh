@@ -1,0 +1,54 @@
+# CLAUDE CLI MANUAL INSTALLATION
+# Run these commands one by one
+
+# 1. Create bin directory
+mkdir -p ~/bin
+cd ~/bin
+
+# 2. Download Claude CLI binary (choose one based on your architecture)
+# For x86_64 (most common):
+curl -L -o claude "https://github.com/anthropics/claude-cli/releases/latest/download/claude-linux-x86_64"
+
+# For ARM64 (if above doesn't work):
+# curl -L -o claude "https://github.com/anthropics/claude-cli/releases/latest/download/claude-linux-aarch64"
+
+# If GitHub doesn't work, try alternative:
+# wget -O claude "https://cdn.claude.ai/cli/latest/linux-x64"
+
+# 3. Make executable
+chmod +x claude
+
+# 4. Add to PATH permanently
+echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bashrc
+export PATH="$PATH:$HOME/bin"
+
+# 5. Test
+./claude --version
+which claude
+
+# 6. Create config directory
+mkdir -p ~/.claude
+
+# 7. Create config file
+cat > ~/.claude/config.json << 'EOF'
+{
+  "api_key": "YOUR_ANTHROPIC_API_KEY",
+  "model": "claude-sonnet-4-5-20250929",
+  "max_tokens": 8192
+}
+EOF
+
+# 8. Update API key
+nano ~/.claude/config.json
+# Replace YOUR_ANTHROPIC_API_KEY with your actual key
+
+# 9. Reload shell
+source ~/.bashrc
+
+# 10. Final test
+claude --version
+claude -p "Hello, Claude!"
+
+# 11. Verify installation
+echo "Claude CLI location: $(which claude)"
+echo "Claude version: $(claude --version)"
