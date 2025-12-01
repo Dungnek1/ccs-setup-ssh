@@ -1,0 +1,47 @@
+# MANUAL COMMANDS FOR SETUP
+# Run these commands one by one in SSH terminal
+
+# 1. Install Claude CLI via npm
+npm install -g @anthropic-ai/claude-cli
+
+# 2. Check if claude command works
+which claude
+claude --version
+
+# 3. If npm doesn't work, try downloading binary
+mkdir -p ~/bin
+cd ~/bin
+
+# For x86_64 Linux
+curl -L -o claude "https://github.com/anthropics/claude-cli/releases/latest/download/claude-linux-x86_64"
+
+# For ARM64 Linux (use if above doesn't work)
+# curl -L -o claude "https://github.com/anthropics/claude-cli/releases/latest/download/claude-linux-aarch64"
+
+# Make executable
+chmod +x claude
+
+# Add to PATH
+echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bashrc
+export PATH="$PATH:$HOME/bin"
+
+# 4. Create config
+mkdir -p ~/.claude
+cat > ~/.claude/config.json << 'EOF'
+{
+  "api_key": "YOUR_ANTHROPIC_API_KEY",
+  "model": "claude-sonnet-4-5-20250929",
+  "max_tokens": 8192
+}
+EOF
+
+# 5. Test
+which claude
+claude --version
+
+# 6. Update API key
+nano ~/.claude/config.json
+# Replace YOUR_ANTHROPIC_API_KEY with actual key
+
+# 7. Test with API key
+claude -p "Hello"
